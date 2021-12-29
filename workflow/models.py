@@ -17,13 +17,18 @@ class User(AbstractUser):
 # Company model
 class Company(models.Model):
     name = models.CharField(max_length=100)
-    address = models.TextField()
+    address = models.TextField(null=True)
     created_at = models.DateTimeField()
 
 
 # Job model
 class Job(models.Model):
-    company = models.ForeignKey('Company', on_delete=models.CASCADE)
+    company = models.ForeignKey(
+        'Company',
+        related_name='jobs',
+        on_delete=models.CASCADE
+    )
+
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=100)
     description = models.TextField(null=True)
@@ -54,8 +59,18 @@ class Job(models.Model):
 
 # Application model
 class Application(models.Model):
-    applicant = models.ForeignKey('User', on_delete=models.CASCADE)
-    job = models.ForeignKey('Job', on_delete=models.CASCADE)
+    applicant = models.ForeignKey(
+        'User',
+        related_name='applications',
+        on_delete=models.CASCADE
+    )
+
+    job = models.ForeignKey(
+        'Job',
+        related_name='applications',
+        on_delete=models.CASCADE
+    )
+
     description = models.TextField(null=True)
     attachments = models.JSONField()
     status = models.CharField(
