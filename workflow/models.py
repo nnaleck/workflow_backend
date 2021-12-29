@@ -72,7 +72,7 @@ class Application(models.Model):
     )
 
     description = models.TextField(null=True)
-    attachments = models.JSONField()
+    attachments = models.JSONField(null=True)
     status = models.CharField(
         max_length=30,
         choices=ApplicationStatuses.choices,
