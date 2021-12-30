@@ -18,7 +18,7 @@ class User(AbstractUser):
 class Company(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField(null=True)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 # Job model
@@ -52,7 +52,7 @@ class Job(models.Model):
     )
 
     # Timestamps
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(default=None, blank=True, null=True)
     closed_at = models.DateTimeField(default=None, blank=True, null=True)
 
@@ -80,4 +80,4 @@ class Application(models.Model):
     )
 
     # Timestamps
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)

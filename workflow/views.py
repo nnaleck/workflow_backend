@@ -1,3 +1,13 @@
-from django.shortcuts import render
+from workflow.models import Company
+from workflow.serializers import CompanySerializer
+from workflow.permissions import IsManagerOrReadOnly
+from rest_framework import generics, permissions
 
-# Create your views here.
+
+class CompanyList(generics.ListCreateAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsManagerOrReadOnly
+    ]
