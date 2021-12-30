@@ -11,3 +11,12 @@ class CompanyList(generics.ListCreateAPIView):
         permissions.IsAuthenticatedOrReadOnly,
         IsManagerOrReadOnly
     ]
+
+
+class CompanyDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsManagerOrReadOnly
+    ]
