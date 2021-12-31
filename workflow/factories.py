@@ -2,7 +2,6 @@ import factory
 import datetime
 from workflow import models
 from workflow.contracts import UserTypes
-from faker import Faker
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -26,7 +25,7 @@ class CompanyFactory(factory.django.DjangoModelFactory):
         factory_related_name='company',
         size=1
     )
-    name = Faker().company
+    name = 'Company'
     created_at = datetime.datetime.now()
 
 
