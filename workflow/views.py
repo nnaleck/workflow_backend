@@ -29,3 +29,12 @@ class JobList(generics.ListCreateAPIView):
         permissions.IsAuthenticatedOrReadOnly,
         IsManagerOrReadOnly
     ]
+
+
+class JobDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsManagerOrReadOnly
+    ]
