@@ -1,6 +1,6 @@
 from workflow.models import Application, Company, Job
 from workflow.serializers import ApplicationSerializer, CompanySerializer, JobSerializer
-from workflow.permissions import IsManagerOrReadOnly
+from workflow.permissions import IsManagerOrReadOnly, IsManagerOrOwnerOfApplication
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
@@ -52,3 +52,12 @@ class ApplicationList(generics.ListCreateAPIView):
         queryset = Application.objects.filter(applicant_id=request.user.id)
         serializer = ApplicationSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ApplicationDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Application.objects.all()
+    serializer_class = ApplicationSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+        IsManagerOrOwnerOfApplication
+    ]
