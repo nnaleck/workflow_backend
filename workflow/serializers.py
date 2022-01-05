@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from workflow.models import Application, Company, Job, User
+from workflow.models import Application, Company, Job
+from authentication.models import User
 
 
 class JobSerializer(serializers.ModelSerializer):

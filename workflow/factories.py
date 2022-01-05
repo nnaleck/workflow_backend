@@ -1,19 +1,7 @@
 import factory
 import datetime
 from workflow import models
-from workflow.contracts import UserTypes
-
-
-class UserFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.User
-
-    username = factory.Sequence(lambda n: 'username %d' % n)
-    first_name = 'John'
-    last_name = 'Doe'
-    email = 'email@email.com'
-    type = UserTypes.APPLICANT
-    phone = '+33123456789'
+from authentication.factories import UserFactory
 
 
 class CompanyFactory(factory.django.DjangoModelFactory):

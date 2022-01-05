@@ -1,11 +1,6 @@
 from django.db import models
 
 
-class UserTypes(models.TextChoices):
-    MANAGER = 'manager', 'Manager'
-    APPLICANT = 'applicant', 'Applicant'
-
-
 class JobContracts(models.TextChoices):
     PERMANENT = 'permanent', 'Permanent Contract'
     FIXED = 'fixed', 'Fixed-Time Contract'

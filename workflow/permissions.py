@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from workflow.contracts import UserTypes
+from authentication.contracts import UserTypes
 
 
 class IsManagerOrReadOnly(permissions.BasePermission):

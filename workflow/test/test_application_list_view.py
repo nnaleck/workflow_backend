@@ -2,8 +2,10 @@ from rest_framework.test import APIClient, APITestCase
 from rest_framework import status
 from django.urls import reverse
 from workflow.models import Application
-from workflow.factories import ApplicationFactory, CompanyFactory, JobFactory, UserFactory
-from workflow.contracts import UserTypes, ApplicationStatuses
+from workflow.factories import ApplicationFactory, CompanyFactory, JobFactory
+from workflow.contracts import ApplicationStatuses
+from authentication.contracts import UserTypes
+from authentication.factories import UserFactory
 
 
 class ApplicationListViewTest(APITestCase):

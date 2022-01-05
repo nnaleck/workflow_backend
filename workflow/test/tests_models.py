@@ -1,5 +1,6 @@
 from django.test import TestCase
-from workflow.models import Application, Company, Job, User
+from authentication.models import User
+from workflow.models import Application, Company, Job
 from workflow.factories import ApplicationFactory, CompanyFactory, JobFactory, UserFactory
 
 

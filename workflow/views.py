@@ -1,7 +1,7 @@
 from workflow.models import Application, Company, Job
-from workflow.contracts import UserTypes
 from workflow.serializers import ApplicationSerializer, CompanySerializer, JobSerializer
 from workflow.permissions import IsManagerOrReadOnly, IsManagerOrOwnerOfApplication
+from authentication.contracts import UserTypes
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
