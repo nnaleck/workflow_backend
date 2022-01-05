@@ -51,12 +51,12 @@ class ApplicationDetailViewTest(APITestCase):
     def test_unauthenticated_users_cannot_retrieve_an_application(self):
         response = self.client.get(self.url)
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_unauthenticated_users_cannot_perform_update_and_destroy_actions(self):
         response = self.client.delete(self.url)
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_managers_can_delete_an_application(self):
         self.client.force_authenticate(user=self.manager)

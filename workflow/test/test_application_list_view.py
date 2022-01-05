@@ -25,7 +25,7 @@ class ApplicationListViewTest(APITestCase):
     def test_unauthenticated_users_cannot_apply_to_a_job(self):
         response = self.client.post(self.url, self.data)
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_applicants_can_apply_to_a_job(self):
         self.client.force_authenticate(user=self.applicant)
