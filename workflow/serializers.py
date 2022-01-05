@@ -27,8 +27,14 @@ class CompanySerializer(serializers.ModelSerializer):
 class ApplicationSerializer(serializers.ModelSerializer):
     applicant = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     job = serializers.PrimaryKeyRelatedField(queryset=Job.objects.all())
+    resume = serializers.FileField(
+        max_length=None,
+        allow_null=True,
+        required=False,
+        use_url=True
+    )
 
     class Meta:
         model = Application
-        fields = ['id', 'applicant', 'job', 'description', 'attachments', 'status', 'created_at']
+        fields = ['id', 'applicant', 'job', 'description', 'resume', 'status', 'created_at']
         read_only_field = ['created_at']

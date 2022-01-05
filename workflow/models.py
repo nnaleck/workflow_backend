@@ -72,7 +72,7 @@ class Application(models.Model):
     )
 
     description = models.TextField(null=True)
-    attachments = models.JSONField(null=True)
+    resume = models.FileField(upload_to='documents/', null=True, blank=True)
     status = models.CharField(
         max_length=30,
         choices=ApplicationStatuses.choices,
