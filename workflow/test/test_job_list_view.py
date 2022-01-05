@@ -5,6 +5,7 @@ from workflow.models import Job
 from workflow.factories import CompanyFactory, UserFactory
 from workflow.contracts import UserTypes, JobTypes, JobContracts, JobModalities
 
+
 class JobListViewTest(APITestCase):
     def setUp(self) -> None:
         self.client = APIClient()
