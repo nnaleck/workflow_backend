@@ -4,6 +4,7 @@ from workflow.permissions import IsManagerOrReadOnly, IsManagerOrOwnerOfApplicat
 from authentication.contracts import UserTypes
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
+from django.utils import timezone
 
 
 class CompanyList(generics.ListCreateAPIView):
@@ -40,6 +41,18 @@ class JobDetail(generics.RetrieveUpdateDestroyAPIView):
         permissions.IsAuthenticatedOrReadOnly,
         IsManagerOrReadOnly
     ]
+
+    def patch(self, request, *args, **kwargs):
+        job = self.get_object()
+
+        if job.published_at:
+            job.published_at = None
+        else:
+            job.published_at = timezone.now()
+
+        job.save()
+
+        return Response({}, status=status.HTTP_200_OK)
 
 
 class ApplicationList(generics.ListCreateAPIView):
