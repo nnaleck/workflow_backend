@@ -16,3 +16,8 @@ class IsManagerOrOwnerOfApplication(permissions.BasePermission):
             return request.user.type == UserTypes.MANAGER
 
         return request.user == obj.applicant or request.user.type == UserTypes.MANAGER
+
+
+class CanApplyToJobs(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.type == UserTypes.APPLICANT

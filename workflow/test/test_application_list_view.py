@@ -43,6 +43,14 @@ class ApplicationListViewTest(APITestCase):
         self.assertEqual(Application.objects.count(), 1)
         self.assertEqual(Application.objects.get().description, 'Some description here')
 
+    def test_managers_cannot_apply_to_a_job(self):
+        self.client.force_authenticate(user=UserFactory(username='manager', type=UserTypes.MANAGER))
+
+        response = self.client.post(self.url, self.data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(Application.objects.count(), 0)
+
     def test_applicants_cannot_apply_to_an_unpublished_job(self):
         self.job = JobFactory(
             company=self.company,

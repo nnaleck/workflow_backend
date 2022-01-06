@@ -1,6 +1,6 @@
 from workflow.models import Application, Company, Job
 from workflow.serializers import ApplicationSerializer, CompanySerializer, JobSerializer
-from workflow.permissions import IsManagerOrReadOnly, IsManagerOrOwnerOfApplication
+from workflow.permissions import IsManagerOrReadOnly, IsManagerOrOwnerOfApplication, CanApplyToJobs
 from authentication.contracts import UserTypes
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
@@ -80,7 +80,8 @@ class ApplicationList(generics.ListCreateAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
     permission_classes = [
-        permissions.IsAuthenticated
+        permissions.IsAuthenticated,
+        CanApplyToJobs
     ]
 
     def list(self, request, *args, **kwargs):
