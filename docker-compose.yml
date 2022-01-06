@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - workflow-postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: workflow
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: workflow
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./:/workflow_backend
+    ports:
+      - "8000:8000"
+    environment:
+      DB_USER: workflow
+      DB_PASSWORD: password
+      DB_DATABASE: workflow
+    depends_on:
+      - postgres
+
+volumes:
+  workflow-postgres-data:
