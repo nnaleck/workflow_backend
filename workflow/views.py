@@ -55,6 +55,27 @@ class JobDetail(generics.RetrieveUpdateDestroyAPIView):
         return Response({}, status=status.HTTP_200_OK)
 
 
+class JobCloseApplications(generics.UpdateAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsManagerOrReadOnly
+    ]
+
+    def patch(self, request, *args, **kwargs):
+        job = self.get_object()
+
+        if job.closed_at:
+            job.closed_at = None
+        else:
+            job.closed_at = timezone.now()
+
+        job.save()
+
+        return Response({}, status=status.HTTP_200_OK)
+
+
 class ApplicationList(generics.ListCreateAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer

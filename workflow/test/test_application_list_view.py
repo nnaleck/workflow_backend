@@ -1,6 +1,7 @@
 from rest_framework.test import APIClient, APITestCase
 from rest_framework import status
 from django.urls import reverse
+from django.utils import timezone
 from workflow.models import Application
 from workflow.factories import ApplicationFactory, CompanyFactory, JobFactory
 from workflow.contracts import ApplicationStatuses
@@ -13,8 +14,12 @@ class ApplicationListViewTest(APITestCase):
         self.client = APIClient()
         self.url = reverse('application-list')
 
-        company = CompanyFactory(jobs=None)
-        self.job = JobFactory(company=company, applications=None)
+        self.company = CompanyFactory(jobs=None)
+        self.job = JobFactory(
+            company=self.company,
+            applications=None,
+            published_at=timezone.now()
+        )
 
         self.applicant = UserFactory(username='applicant', type=UserTypes.APPLICANT)
         self.data = {
@@ -37,6 +42,39 @@ class ApplicationListViewTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Application.objects.count(), 1)
         self.assertEqual(Application.objects.get().description, 'Some description here')
+
+    def test_applicants_cannot_apply_to_an_unpublished_job(self):
+        self.job = JobFactory(
+            company=self.company,
+            applications=None,
+            published_at=None
+        )
+
+        self.client.force_authenticate(user=self.applicant)
+
+        self.data['job'] = self.job.id
+
+        response = self.client.post(self.url, self.data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Application.objects.count(), 0)
+
+    def test_applicants_cannot_apply_to_a_job_that_does_not_accept_applications(self):
+        self.job = JobFactory(
+            company=self.company,
+            applications=None,
+            published_at=timezone.now(),
+            closed_at=timezone.now()
+        )
+
+        self.client.force_authenticate(user=self.applicant)
+
+        self.data['job'] = self.job.id
+
+        response = self.client.post(self.url, self.data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Application.objects.count(), 0)
 
     def test_applicants_can_view_their_applications(self):
         ApplicationFactory(

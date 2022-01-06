@@ -39,3 +39,16 @@ class ApplicationSerializer(serializers.ModelSerializer):
         model = Application
         fields = ['id', 'applicant', 'job', 'description', 'resume', 'status', 'created_at']
         read_only_field = ['created_at']
+
+    def validate(self, attrs):
+        if 'job' in attrs and not attrs['job'].published_at:
+            raise serializers.ValidationError({
+                'job': 'You cannot apply to a job that is not published yet.'
+            })
+
+        if 'job' in attrs and attrs['job'].closed_at:
+            raise serializers.ValidationError({
+                'job': 'The job that you are applying for is no longer accepting applications.'
+            })
+
+        return attrs
